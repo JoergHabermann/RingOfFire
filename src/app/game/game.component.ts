@@ -4,13 +4,15 @@ import { Game } from '../../models/game';
 import { PlayerComponent } from '../player/player.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 
 
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [NgFor,NgStyle,NgIf,PlayerComponent,MatButtonModule,MatIconModule],
+  imports: [NgFor,NgStyle,NgIf,PlayerComponent,MatButtonModule,MatIconModule,MatDialogModule],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
@@ -19,7 +21,7 @@ export class GameComponent /* implements OnInit */ {
   currentCard: string = '';
   game: any;
 
-  constructor () {}
+  constructor (public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.newGame();
@@ -43,4 +45,13 @@ export class GameComponent /* implements OnInit */ {
       }, 1000);
     }
   }
+
+
+openDialog(): void {
+  const dialogRef = this.dialog.open(DialogAddPlayerComponent);
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('The dialog was closed');    
+  });
+}
 }
